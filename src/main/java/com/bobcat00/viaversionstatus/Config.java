@@ -16,10 +16,7 @@
 
 package com.bobcat00.viaversionstatus;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -197,7 +194,7 @@ public class Config
         {
             File outFile = new File(plugin.getDataFolder(), "config.yml");
             
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(outFile.getAbsolutePath())), StandardCharsets.UTF_8));
+            Writer writer = new OutputStreamWriter(Files.newOutputStream(Paths.get(outFile.getAbsolutePath())));
             
             writer.write("# Strings should be enclosed in double quotes: \"...\"" + "\n");
             writer.write("# Supported variables are %player%, %displayname%, %version%, and %server%" + "\n");
