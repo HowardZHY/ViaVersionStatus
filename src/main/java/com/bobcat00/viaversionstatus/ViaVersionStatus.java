@@ -25,16 +25,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import network.darkhelmet.prism.Prism;
-import network.darkhelmet.prism.actionlibs.ActionTypeImpl;
-import network.darkhelmet.prism.exceptions.InvalidActionException;
-
 public final class ViaVersionStatus extends JavaPlugin
 {
     ViaVersionStatus plugin = this;
     Config config;
     Listeners listeners;
-    Prism prism;
     String prismVersion = "unknown";
     PrismEvent prismEvent; // Used to send event to Prism
     boolean prismHooked = false;
@@ -55,74 +50,7 @@ public final class ViaVersionStatus extends JavaPlugin
         {
             ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter("No light data found for chunk"));
         }
-        
-        // Prism
-        if (config.getPrismIntegration())
-        {
-            Plugin prismPlugin = Bukkit.getPluginManager().getPlugin("Prism");
-            if (prismPlugin != null && prismPlugin.isEnabled())
-            {
-                try
-                {
-                    prism = (Prism) prismPlugin;
-                    prismVersion = prism.getDescription().getVersion();
 
-                    // Register our custom event. We have to wait until Prism is fully up and running.
-                    // We do this by waiting for PurgeManager to be set.
-
-                    new BukkitRunnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            if (prism.getPurgeManager() != null)
-                            {
-                                try
-                                {
-                                    // Register the custom event
-                                    ActionTypeImpl actionType = new ActionTypeImpl("vvs-client-connect", PrismPlayerAction.class, "client version");
-                                    Prism.getActionRegistry().registerCustomAction(plugin, actionType);
-                                    prismEvent = new PrismEvent();
-                                    prismHooked = true;
-                                    getLogger().info("Hooked into Prism version " + prismVersion);
-                                    this.cancel();
-                                }
-                                catch (InvalidActionException e)
-                                {
-                                    // Exception thrown by Prism
-                                    getLogger().warning("Unable to hook into Prism: ");
-                                    getLogger().warning(e.getMessage());
-                                    getLogger().warning("Check Prism's config to ensure that tracking.api is true");
-                                    getLogger().warning("and ViaVersionStatus is in the allowed-plugins list.");
-                                    this.cancel(); // only try once
-                                }
-                            }
-                            else
-                            {
-                                ++prismCounter;
-                                // Cancel if we tried 50 times
-                                if (prismCounter >= 50)
-                                {
-                                    getLogger().warning("Unable to hook into Prism. Check if Prism is working.");
-                                    this.cancel();
-                                }
-                            }
-                        }
-                    }.runTaskTimer(this,
-                            1L,  // delay 1 tick
-                            4L); // period 200 msec
-                }
-                catch (NoClassDefFoundError e)
-                {
-                    getLogger().warning("Unable to hook into Prism. Make sure you are using Prism version 3.x or later.");
-                }
-            }
-            else
-            {
-                getLogger().warning("prism-integration is true but Prism is not present or not enabled.");
-            }
-        }
-        
         // Metrics
         if (config.getEnableMetrics())
         {

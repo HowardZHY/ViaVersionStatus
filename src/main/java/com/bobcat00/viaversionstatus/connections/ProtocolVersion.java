@@ -18,18 +18,18 @@ package com.bobcat00.viaversionstatus.connections;
 
 public class ProtocolVersion
 {
-    int id;
-    String name;
+    public int id;
+    public String name;
     
     // Constructors
     
-    ProtocolVersion()
+    public ProtocolVersion()
     {
         id = -1;
         name = "UNKNOWN";
     }
     
-    ProtocolVersion(int id, String name)
+    public ProtocolVersion(int id, String name)
     {
         this.id = id;
         this.name = name;

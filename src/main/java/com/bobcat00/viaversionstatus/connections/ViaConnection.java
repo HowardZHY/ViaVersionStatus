@@ -26,10 +26,11 @@ import org.bukkit.entity.Player;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.ViaAPI;
 
+@SuppressWarnings("all")
 public class ViaConnection implements Connection
 {
-    private boolean valid;
-    @SuppressWarnings("rawtypes")
+    public boolean valid;
+
     private ViaAPI api;
     
     // Constructor
