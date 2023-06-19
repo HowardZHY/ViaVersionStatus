@@ -31,7 +31,6 @@ public final class ViaVersionStatus extends JavaPlugin
     Config config;
     Listeners listeners;
     String prismVersion = "unknown";
-    PrismEvent prismEvent; // Used to send event to Prism
     boolean prismHooked = false;
     int prismCounter = 0;
     

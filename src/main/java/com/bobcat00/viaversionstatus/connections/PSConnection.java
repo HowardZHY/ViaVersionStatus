@@ -28,7 +28,7 @@ import protocolsupport.protocol.utils.ProtocolVersionsHelper;
 
 public class PSConnection implements Connection
 {
-    private boolean valid;
+    public boolean valid;
     
     // Constructor
     
@@ -45,7 +45,7 @@ public class PSConnection implements Connection
     }
     
     // ProtocolVersion
-    
+
     public ProtocolVersion getProtocol(Player player)
     {
         ProtocolVersion protocol = new ProtocolVersion();

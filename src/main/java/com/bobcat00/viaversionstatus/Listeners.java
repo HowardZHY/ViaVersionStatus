@@ -310,13 +310,6 @@ public final class Listeners implements Listener
                                                                 clientVersion,
                                                                 serverVersion);
         }
-        
-        // 5. Send to Prism
-        
-        if (plugin.prismHooked)
-        {
-            plugin.prismEvent.callPrismEvent(plugin, "vvs-client-connect", player, clientProtocol.toString());
-        }
 
     }
     
